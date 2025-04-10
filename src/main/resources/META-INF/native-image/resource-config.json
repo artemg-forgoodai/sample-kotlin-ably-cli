@@ -1,0 +1,15 @@
+{
+  "resources":{
+  "includes":[{
+    "pattern":"\\QMETA-INF/services/.*\\E"
+  }, {
+    "pattern":"\\Qlogback.xml\\E"
+  }, {
+    "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+  }, {
+    "pattern":"\\Qorg/msgpack/.*\\E"
+  }, {
+    "pattern":"\\Qio/ably/.*\\E"
+  }]},
+  "bundles":[]
+}

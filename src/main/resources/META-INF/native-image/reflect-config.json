@@ -1,0 +1,271 @@
+[
+{
+  "name":"io.ably.lib.realtime.AblyRealtime",
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"io.ably.lib.types.ClientOptions",
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"io.ably.lib.types.Message",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"io.ably.lib.types.ProtocolMessage",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"io.ably.lib.types.ProtocolSerializer",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.example.AblyCliApp",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.example.MainKt",
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.MessageBuffer",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.MessageBufferU",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.MessageBufferBE",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.MessageBufferLE",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.MessagePack",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.MessagePack$UnpackerConfig",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.ArrayBufferInput",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.MessagePacker",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.MessageUnpacker",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.MessageFormat",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true,
+  "fields":[
+    {"name":"L_FIXINT_ZERO"},
+    {"name":"L_FIXINT_MIN"},
+    {"name":"L_FIXINT_MAX"},
+    {"name":"L_FIXMAP_MIN"},
+    {"name":"L_FIXMAP_MAX"},
+    {"name":"L_FIXARRAY_MIN"},
+    {"name":"L_FIXARRAY_MAX"},
+    {"name":"L_FIXSTR_MIN"},
+    {"name":"L_FIXSTR_MAX"},
+    {"name":"L_NIL"},
+    {"name":"L_NEVER_USED"},
+    {"name":"L_FALSE"},
+    {"name":"L_TRUE"},
+    {"name":"L_BIN8"},
+    {"name":"L_BIN16"},
+    {"name":"L_BIN32"},
+    {"name":"L_EXT8"},
+    {"name":"L_EXT16"},
+    {"name":"L_EXT32"},
+    {"name":"L_FLOAT32"},
+    {"name":"L_FLOAT64"},
+    {"name":"L_UINT8"},
+    {"name":"L_UINT16"},
+    {"name":"L_UINT32"},
+    {"name":"L_UINT64"},
+    {"name":"L_INT8"},
+    {"name":"L_INT16"},
+    {"name":"L_INT32"},
+    {"name":"L_INT64"},
+    {"name":"L_FIXEXT1"},
+    {"name":"L_FIXEXT2"},
+    {"name":"L_FIXEXT4"},
+    {"name":"L_FIXEXT8"},
+    {"name":"L_FIXEXT16"},
+    {"name":"L_STR8"},
+    {"name":"L_STR16"},
+    {"name":"L_STR32"},
+    {"name":"L_ARRAY16"},
+    {"name":"L_ARRAY32"},
+    {"name":"L_MAP16"},
+    {"name":"L_MAP32"},
+    {"name":"L_NEGFIXINT_MIN"},
+    {"name":"L_NEGFIXINT_MAX"}
+  ]
+},
+{
+  "name":"org.msgpack.core.MessageFormat$Values",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true
+},
+{
+  "name":"org.msgpack.core.buffer.MessageBufferInput",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.MessageBufferOutput",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"org.msgpack.core.buffer.ByteBufferInput",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "allDeclaredConstructors":true,
+  "allPublicConstructors":true
+},
+{
+  "name":"io.ably.lib.types.ProtocolMessage$Action",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "fields":[
+    {"name":"HEARTBEAT"},
+    {"name":"ACK"},
+    {"name":"NACK"},
+    {"name":"CONNECT"},
+    {"name":"CONNECTED"},
+    {"name":"DISCONNECT"},
+    {"name":"DISCONNECTED"},
+    {"name":"CLOSE"},
+    {"name":"CLOSED"},
+    {"name":"ERROR"},
+    {"name":"ATTACH"},
+    {"name":"ATTACHED"},
+    {"name":"DETACH"},
+    {"name":"DETACHED"},
+    {"name":"PRESENCE"},
+    {"name":"MESSAGE"},
+    {"name":"SYNC"}
+  ]
+},
+{
+  "name":"io.ably.lib.types.ProtocolMessage$Flag",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "allDeclaredMethods":true,
+  "allPublicMethods":true,
+  "fields":[
+    {"name":"HAS_PRESENCE"},
+    {"name":"HAS_BACKLOG"},
+    {"name":"RESUMED"},
+    {"name":"TRANSIENT"},
+    {"name":"PRESENCE"},
+    {"name":"PUBLISH"},
+    {"name":"SUBSCRIBE"},
+    {"name":"PRESENCE_SUBSCRIBE"}
+  ]
+}
+]

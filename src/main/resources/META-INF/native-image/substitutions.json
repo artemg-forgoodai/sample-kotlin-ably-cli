@@ -1,0 +1,17 @@
+[
+  {
+    "name": "org.msgpack.core.buffer.MessageBuffer",
+    "fields": [
+      {
+        "name": "ARRAY_BYTE_BASE_OFFSET",
+        "allowWrite": true,
+        "value": 16
+      },
+      {
+        "name": "ARRAY_BYTE_INDEX_SCALE",
+        "allowWrite": true,
+        "value": 1
+      }
+    ]
+  }
+]

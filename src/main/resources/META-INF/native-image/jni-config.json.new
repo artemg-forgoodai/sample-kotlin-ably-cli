@@ -1,0 +1,38 @@
+[
+  {
+    "name": "org.msgpack.core.buffer.MessageBuffer",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.msgpack.core.buffer.MessageBufferU",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.msgpack.core.buffer.MessageBufferBE",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.msgpack.core.buffer.MessageBufferLE",
+    "methods": [
+      {
+        "name": "<clinit>",
+        "parameterTypes": []
+      }
+    ]
+  }
+]
