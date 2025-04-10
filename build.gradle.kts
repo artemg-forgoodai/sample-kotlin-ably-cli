@@ -56,20 +56,46 @@ graalvmNative {
             mainClass.set("org.example.MainKt")
             debug.set(false)
             verbose.set(true)
-            fallback.set(true) // Changed to true to help with initial build
+            fallback.set(true) // Use fallback mode to get a working build
             buildArgs.add("--enable-url-protocols=https")
 
             // Enable reflection for the Ably SDK and other libraries
             // Configuration files are automatically picked up from META-INF/native-image/
 
-            // Initialize classes at build time
-            buildArgs.add("--initialize-at-build-time=org.msgpack")
-            buildArgs.add("--initialize-at-build-time=io.ably.lib.types")
+            // For now, we use the most aggressive approach - initialize everything at build time
+            // with a few specific exceptions. This isn't ideal for production, but it gets us a working build.
+            // Initialize MessagePack classes at runtime to avoid Unsafe issues
+            buildArgs.add("--initialize-at-run-time=org.msgpack")
+            buildArgs.add("--initialize-at-run-time=org.msgpack.core")
+            buildArgs.add("--initialize-at-run-time=org.msgpack.core.buffer")
+            
+            // Initialize crypto classes at runtime to avoid SecureRandom issues
+            buildArgs.add("--initialize-at-run-time=io.ably.lib.util.Crypto")
+            buildArgs.add("--initialize-at-run-time=com.davidehrmann.vcdiff.util.ZeroInitializedAdler32")
+            // We don't explicitly initialize java.util.zip.Adler32 at runtime 
+            // because GraalVM's JNI registration handling needs to control this
+            
+            // Default to initializing our code at build time
+            buildArgs.add("--initialize-at-build-time=org.example")
+            buildArgs.add("--initialize-at-build-time=kotlin")
+            buildArgs.add("--initialize-at-build-time=ch.qos.logback")
+            buildArgs.add("--initialize-at-build-time=org.slf4j")
+            
+            // Ensure Kotlin reflection works properly
+            buildArgs.add("--initialize-at-build-time=kotlin.jvm.internal.PropertyReference1Impl")
+            buildArgs.add("--initialize-at-build-time=kotlin.jvm.internal.Reflection")
+            
+            // Force Netty to avoid Unsafe operations
+            buildArgs.add("-Dio.netty.noUnsafe=true")
+            
+            // Allow deprecated options
+            buildArgs.add("-H:+AllowDeprecatedInitializeAllClassesAtBuildTime")
 
-            // Add substitution for MessageBuffer
+            // Add configuration files
             buildArgs.add("-H:ReflectionConfigurationFiles=${projectDir}/src/main/resources/META-INF/native-image/reflect-config.json")
             buildArgs.add("-H:ResourceConfigurationFiles=${projectDir}/src/main/resources/META-INF/native-image/resource-config.json")
-            buildArgs.add("-H:SubstitutionFiles=${projectDir}/src/main/resources/META-INF/native-image/substitutions.json")
+            // The SubstitutionFiles option is not available in GraalVM 21
+            // Using the Feature mechanism instead via org.graalvm.nativeimage.hosted.Feature
 
             // Enable more detailed error reporting
             buildArgs.add("-H:+ReportExceptionStackTraces")
@@ -82,9 +108,8 @@ graalvmNative {
             // Add specific options for MessagePack
             buildArgs.add("-H:+AddAllCharsets")
 
-            // Add options for handling Unsafe operations
-            buildArgs.add("-H:+AllowVMInspection")
-            buildArgs.add("-H:+UnlockExperimentalVMOptions")
+            // Add options for handling monitoring
+            buildArgs.add("--enable-monitoring")
             buildArgs.add("-H:ReflectionConfigurationResources=META-INF/native-image/reflect-config.json")
 
             // Allow incomplete classpath

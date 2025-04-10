@@ -1,87 +1,71 @@
 package org.example
 
 import org.graalvm.nativeimage.hosted.Feature
+import org.graalvm.nativeimage.hosted.RuntimeClassInitialization
+import org.graalvm.nativeimage.hosted.RuntimeReflection
 import org.msgpack.core.buffer.MessageBuffer
+import org.msgpack.core.MessagePack
+import org.msgpack.core.MessageUnpacker
+import org.msgpack.core.MessagePacker
+import org.msgpack.core.buffer.MessageBufferInput
+import org.msgpack.core.buffer.MessageBufferOutput
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 
 /**
- * This feature manually initializes the MessageBuffer class fields that use Unsafe operations.
- * It's an alternative approach to using @TargetClass and @RecomputeFieldValue annotations.
+ * This feature handles the MessageBuffer class initialization at build time.
+ * It forces MessageBuffer related classes to initialize at runtime to avoid issues
+ * with Unsafe operations in GraalVM native image.
  */
 class MessageBufferFeature : Feature {
     override fun beforeAnalysis(access: Feature.BeforeAnalysisAccess) {
         try {
-            // Get the MessageBuffer class
+            // Register important MessagePack classes for runtime initialization
+            println("MessageBufferFeature: Registering MessagePack classes for runtime initialization")
+            
+            // Register the MessageBuffer class for runtime initialization
+            RuntimeClassInitialization.initializeAtRunTime(MessageBuffer::class.java)
+            
+            // Also register other MessagePack classes that might cause issues
+            RuntimeClassInitialization.initializeAtRunTime(MessagePack::class.java)
+            RuntimeClassInitialization.initializeAtRunTime(MessageUnpacker::class.java)
+            RuntimeClassInitialization.initializeAtRunTime(MessagePacker::class.java)
+            RuntimeClassInitialization.initializeAtRunTime(MessageBufferInput::class.java)
+            RuntimeClassInitialization.initializeAtRunTime(MessageBufferOutput::class.java)
+            
+            // Register additional MessageBuffer classes by name
+            registerClassForRuntimeInit("org.msgpack.core.buffer.MessageBufferU")
+            registerClassForRuntimeInit("org.msgpack.core.buffer.MessageBufferBE")
+            registerClassForRuntimeInit("org.msgpack.core.buffer.MessageBufferLE")
+            
+            // Also register the MessageBuffer class and its fields for reflection
             val messageBufferClass = MessageBuffer::class.java
+            RuntimeReflection.register(messageBufferClass)
             
-            // Get the ARRAY_BYTE_BASE_OFFSET field
-            val baseOffsetField = messageBufferClass.getDeclaredField("ARRAY_BYTE_BASE_OFFSET")
-            makeFieldAccessible(baseOffsetField)
-            
-            // Get the ARRAY_BYTE_INDEX_SCALE field
-            val indexScaleField = messageBufferClass.getDeclaredField("ARRAY_BYTE_INDEX_SCALE")
-            makeFieldAccessible(indexScaleField)
-            
-            // Calculate the values that would normally be set by Unsafe
-            val byteArrayBaseOffset = getByteArrayBaseOffset()
-            val byteArrayIndexScale = getByteArrayIndexScale()
-            
-            // Set the values
-            if (Modifier.isFinal(baseOffsetField.modifiers)) {
-                setFinalField(baseOffsetField, null, byteArrayBaseOffset)
-            } else {
-                baseOffsetField.set(null, byteArrayBaseOffset)
+            for (field in messageBufferClass.declaredFields) {
+                RuntimeReflection.register(field)
             }
             
-            if (Modifier.isFinal(indexScaleField.modifiers)) {
-                setFinalField(indexScaleField, null, byteArrayIndexScale)
-            } else {
-                indexScaleField.set(null, byteArrayIndexScale)
+            for (method in messageBufferClass.declaredMethods) {
+                RuntimeReflection.register(method)
             }
             
-            println("MessageBufferFeature: Successfully initialized MessageBuffer fields")
-            println("  ARRAY_BYTE_BASE_OFFSET = $byteArrayBaseOffset")
-            println("  ARRAY_BYTE_INDEX_SCALE = $byteArrayIndexScale")
+            println("MessageBufferFeature: Successfully registered MessagePack classes for runtime initialization")
         } catch (e: Exception) {
-            println("MessageBufferFeature: Error initializing MessageBuffer fields: ${e.message}")
+            println("MessageBufferFeature: Error registering MessagePack classes: ${e.message}")
             e.printStackTrace()
         }
     }
     
-    private fun makeFieldAccessible(field: Field) {
-        if (!field.isAccessible) {
-            field.isAccessible = true
-        }
-    }
-    
-    private fun setFinalField(field: Field, target: Any?, value: Any?) {
-        makeFieldAccessible(field)
-        
+    private fun registerClassForRuntimeInit(className: String) {
         try {
-            // Get the modifiers field from Field class
-            val modifiersField = Field::class.java.getDeclaredField("modifiers")
-            modifiersField.isAccessible = true
-            
-            // Remove the final modifier
-            modifiersField.setInt(field, field.modifiers and Modifier.FINAL.inv())
-            
-            // Set the new value
-            field.set(target, value)
+            val clazz = Class.forName(className)
+            RuntimeClassInitialization.initializeAtRunTime(clazz)
+            println("MessageBufferFeature: Registered $className for runtime initialization")
+        } catch (e: ClassNotFoundException) {
+            println("MessageBufferFeature: Class not found: $className")
         } catch (e: Exception) {
-            println("Error setting final field: ${e.message}")
-            e.printStackTrace()
+            println("MessageBufferFeature: Error registering $className: ${e.message}")
         }
-    }
-    
-    private fun getByteArrayBaseOffset(): Long {
-        // This is a common value for byte array base offset on most JVMs
-        // For GraalVM native image, we need to use a fixed value
-        return 16L
-    }
-    
-    private fun getByteArrayIndexScale(): Int {
-        // This is always 1 for byte arrays (each element is 1 byte)
-        return 1
     }
 }

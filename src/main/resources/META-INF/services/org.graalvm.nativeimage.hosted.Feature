@@ -1,2 +1,4 @@
 org.example.NativeImageSupport
 org.example.MessageBufferFeature
+org.example.VCDiffFeature
+org.example.CryptoFeature

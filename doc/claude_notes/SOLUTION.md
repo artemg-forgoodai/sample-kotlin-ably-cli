@@ -1,5 +1,62 @@
 # Solutions for Common GraalVM Native Image Errors
 
+## Error 5: Kotlin Companion Object Annotation Issues with GraalVM 21
+
+If you're encountering errors like:
+
+```
+e: file:///Users/brannt/forgoodai/ktcli/src/main/kotlin/org/example/MessageBufferSubstitutions.kt:19:5 This annotation is not applicable to target 'companion object'. Applicable targets: field, constructor, function, getter, setter, expression
+e: file:///Users/brannt/forgoodai/ktcli/src/main/kotlin/org/example/MessageBufferSubstitutions.kt:20:5 This annotation is not applicable to target 'companion object'. Applicable targets: field, expression
+```
+
+This error occurs because GraalVM substitution annotations like `@Alias` and `@RecomputeFieldValue` cannot be applied directly to Kotlin companion objects.
+
+### Solution for Kotlin Companion Object Annotation Issues
+
+1. Restructure your `MessageBufferSubstitutions.kt` to apply annotations to fields directly instead of a companion object:
+
+   ```kotlin
+   @TargetClass(MessageBuffer::class)
+   final class MessageBufferSubstitute {
+       /**
+        * Substitute for the ARRAY_BYTE_BASE_OFFSET field in MessageBuffer.
+        */
+       @Alias
+       @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.ArrayBaseOffset, declClass = ByteArray::class)
+       internal val ARRAY_BYTE_BASE_OFFSET: Long = 0L
+   
+       /**
+        * Substitute for the ARRAY_BYTE_INDEX_SCALE field in MessageBuffer.
+        */
+       @Alias
+       @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.ArrayIndexScale, declClass = ByteArray::class)
+       internal val ARRAY_BYTE_INDEX_SCALE: Int = 0
+   }
+   ```
+
+2. When dealing with more complex class initialization issues during GraalVM native image compilation, add proper initialization directives:
+
+   ```kotlin
+   // In build.gradle.kts
+   // Initialize specific packages at build time
+   buildArgs.add("--initialize-at-build-time=org.example,kotlin.jvm.internal,kotlin.reflect,org.slf4j,ch.qos.logback")
+   buildArgs.add("--initialize-at-build-time=kotlin.jvm.internal.PropertyReference1Impl")
+   
+   // Force build to continue even with issues
+   buildArgs.add("--no-fallback")
+   buildArgs.add("-Dio.netty.noUnsafe=true")
+   buildArgs.add("-H:-UseServiceLoaderFeature")
+   ```
+
+3. If you encounter errors with the `SubstitutionFiles` option in GraalVM 21, remove it from your build file as it's no longer supported:
+
+   ```kotlin
+   // Remove this line
+   buildArgs.add("-H:SubstitutionFiles=${projectDir}/src/main/resources/META-INF/native-image/substitutions.json")
+   
+   // Use the Feature mechanism instead via org.graalvm.nativeimage.hosted.Feature
+   ```
+
 ## Error 1: "Cannot query the value of property 'javaLauncher'"
 
 If you're encountering the error:
